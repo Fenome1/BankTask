@@ -1,0 +1,18 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: postgresql
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: P@ssw0rd
+      POSTGRES_DB: bank
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    restart: always
+    #logging:
+      #driver: none
+
+volumes:
+  pg_data:
