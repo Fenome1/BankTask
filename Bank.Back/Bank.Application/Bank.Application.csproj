@@ -9,8 +9,8 @@
     <ItemGroup>
         <PackageReference Include="Autofac" Version="8.0.0"/>
         <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="9.0.0"/>
-        <PackageReference Include="AutoMapper" Version="12.0.1"/>
-        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1"/>
+        <PackageReference Include="AutoMapper" Version="13.0.1"/>
+        <PackageReference Include="AutoMapper.Contrib.Autofac.DependencyInjection" Version="8.0.0"/>
         <PackageReference Include="BCrypt.Net-Next" Version="4.0.3"/>
         <PackageReference Include="MediatR" Version="12.3.0"/>
         <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="12.1.0"/>
@@ -20,6 +20,10 @@
     <ItemGroup>
         <ProjectReference Include="..\Bank.Core\Bank.Core.csproj"/>
         <ProjectReference Include="..\Bank.Persistence\Bank.Persistence.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Features\Users\Commands\"/>
     </ItemGroup>
 
 </Project>

@@ -2,7 +2,7 @@
 
 public class Account
 {
-    public int PersonalAccountId { get; set; }
+    public int AccountId { get; set; }
 
     public int OwnerId { get; set; }
 

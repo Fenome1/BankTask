@@ -9,7 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Bank.Back.Modules;
 
-public class ApiModule(IConfiguration configuration) : Module
+public sealed class ApiModule(IConfiguration configuration) : Module
 {
     protected override void Load(ContainerBuilder builder)
     {

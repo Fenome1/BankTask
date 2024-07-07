@@ -34,7 +34,7 @@ public partial class BankDbContext : DbContext
     {
         modelBuilder.Entity<Account>(entity =>
         {
-            entity.HasKey(e => e.PersonalAccountId).HasName("account_pkey");
+            entity.HasKey(e => e.AccountId).HasName("account_pkey");
 
             entity.ToTable("accounts");
 
@@ -42,9 +42,9 @@ public partial class BankDbContext : DbContext
                 .IsUnique()
                 .HasAnnotation("Npgsql:StorageParameter:deduplicate_items", "true");
 
-            entity.Property(e => e.PersonalAccountId)
+            entity.Property(e => e.AccountId)
                 .HasDefaultValueSql("nextval('\"PersonalAccount_PersonalAccountId_seq\"'::regclass)")
-                .HasColumnName("personal_account_id");
+                .HasColumnName("account_id");
             entity.Property(e => e.Balance)
                 .HasColumnType("money")
                 .HasColumnName("balance");
@@ -59,7 +59,6 @@ public partial class BankDbContext : DbContext
 
             entity.HasOne(d => d.Owner).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.OwnerId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("accounts_owner_id_fkey");
         });
 
@@ -102,7 +101,6 @@ public partial class BankDbContext : DbContext
 
             entity.HasOne(d => d.Currency).WithMany(p => p.ExchangeRates)
                 .HasForeignKey(d => d.CurrencyId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("exchange_rates_currency_id_fkey");
         });
 
@@ -127,7 +125,6 @@ public partial class BankDbContext : DbContext
 
             entity.HasOne(d => d.User).WithOne(p => p.RefreshToken)
                 .HasForeignKey<RefreshToken>(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("refresh_tokens_user_id_fkey");
         });
 
@@ -153,12 +150,10 @@ public partial class BankDbContext : DbContext
 
             entity.HasOne(d => d.FromAccount).WithMany(p => p.TransactionFromAccounts)
                 .HasForeignKey(d => d.FromAccountId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("transactions_from_account_Id_fkey");
 
             entity.HasOne(d => d.ToAccount).WithMany(p => p.TransactionToAccounts)
                 .HasForeignKey(d => d.ToAccountId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("transactions_to_account_id_fkey");
         });
 
