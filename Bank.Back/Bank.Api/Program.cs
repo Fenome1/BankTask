@@ -2,7 +2,6 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Bank.Application.Common.Jwt;
 using Bank.Back.Modules;
-using Bank.Persistence.Context;
 
 var applicationBuilder = WebApplication.CreateBuilder(args);
 applicationBuilder.Services.Configure<JwtOptions>(applicationBuilder.Configuration.GetSection("Jwt"));
@@ -18,18 +17,15 @@ applicationBuilder.Services.AddControllers();
 applicationBuilder.Services.AddEndpointsApiExplorer();
 applicationBuilder.Services.AddSwaggerGen();
 
-applicationBuilder.Services.AddCors(options => options.AddPolicy("CORS", policy =>
+applicationBuilder.Services.AddCors(options =>
 {
-    policy
-        .WithMethods(
-            HttpMethods.Get,
-            HttpMethods.Post,
-            HttpMethods.Put,
-            HttpMethods.Delete)
-        .AllowAnyHeader()
-        .AllowCredentials()
-        .SetIsOriginAllowed(_ => true);
-}));
+    options.AddDefaultPolicy(b =>
+    {
+        b.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
 
 var app = applicationBuilder.Build();
 
@@ -38,16 +34,16 @@ app.UseSwaggerUI();
 
 app.UseRouting();
 
-app.UseCors("CORS");
+app.UseCors(x => x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .SetIsOriginAllowed(_ => true)
+    .AllowCredentials());
 
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
-
-await using var scope = app.Services.CreateAsyncScope();
-await using var context = scope.ServiceProvider.GetRequiredService<BankDbContext>();
-await context.Database.EnsureCreatedAsync();
 
 app.Run();

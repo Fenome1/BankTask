@@ -1,6 +1,6 @@
 ﻿namespace Bank.Core.Models;
 
-public partial class PersonalAccount
+public class Account
 {
     public int PersonalAccountId { get; set; }
 
@@ -12,9 +12,7 @@ public partial class PersonalAccount
 
     public decimal Balance { get; set; }
 
-    public int CurrencyTypeId { get; set; }
-
-    public virtual CurrencyType CurrencyType { get; set; } = null!;
+    public int CurrencyId { get; set; }
 
     public virtual User Owner { get; set; } = null!;
 

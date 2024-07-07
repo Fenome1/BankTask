@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Bank.Core.Models;
+﻿using Bank.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bank.Persistence.Context;
@@ -16,9 +14,11 @@ public partial class BankDbContext : DbContext
     {
     }
 
-    public virtual DbSet<CurrencyType> CurrencyTypes { get; set; }
+    public virtual DbSet<Account> Accounts { get; set; }
 
-    public virtual DbSet<PersonalAccount> PersonalAccounts { get; set; }
+    public virtual DbSet<Currency> Currencies { get; set; }
+
+    public virtual DbSet<ExchangeRate> ExchangeRates { get; set; }
 
     public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
 
@@ -26,96 +26,157 @@ public partial class BankDbContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https: //go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseNpgsql("Host=localhost;Database=bank;Username=postgres;Password=P@ssw0rd;");
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<CurrencyType>(entity =>
+        modelBuilder.Entity<Account>(entity =>
         {
-            entity.HasKey(e => e.CurrencyTypeId).HasName("CurrencyType_pkey");
+            entity.HasKey(e => e.PersonalAccountId).HasName("account_pkey");
 
-            entity.ToTable("CurrencyType");
+            entity.ToTable("accounts");
 
-            entity.Property(e => e.CurrencyTypeId).HasDefaultValueSql("nextval('\"ExchangeRateType_ExchangeRateTypeId_seq\"'::regclass)");
-            entity.Property(e => e.CreationDate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone");
-            entity.Property(e => e.Name).HasMaxLength(10);
-            entity.Property(e => e.Rate).HasPrecision(10, 6);
+            entity.HasIndex(e => e.Number, "accounts_number_uq")
+                .IsUnique()
+                .HasAnnotation("Npgsql:StorageParameter:deduplicate_items", "true");
+
+            entity.Property(e => e.PersonalAccountId)
+                .HasDefaultValueSql("nextval('\"PersonalAccount_PersonalAccountId_seq\"'::regclass)")
+                .HasColumnName("personal_account_id");
+            entity.Property(e => e.Balance)
+                .HasColumnType("money")
+                .HasColumnName("balance");
+            entity.Property(e => e.CurrencyId).HasColumnName("currency_id");
+            entity.Property(e => e.Name)
+                .HasMaxLength(120)
+                .HasColumnName("name");
+            entity.Property(e => e.Number)
+                .HasMaxLength(20)
+                .HasColumnName("number");
+            entity.Property(e => e.OwnerId).HasColumnName("owner_id");
+
+            entity.HasOne(d => d.Owner).WithMany(p => p.Accounts)
+                .HasForeignKey(d => d.OwnerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("accounts_owner_id_fkey");
         });
 
-        modelBuilder.Entity<PersonalAccount>(entity =>
+        modelBuilder.Entity<Currency>(entity =>
         {
-            entity.HasKey(e => e.PersonalAccountId).HasName("PersonalAccount_pkey");
+            entity.HasKey(e => e.CurrencyId).HasName("currency_pkey");
 
-            entity.ToTable("PersonalAccount");
+            entity.ToTable("currencies");
 
-            entity.HasIndex(e => e.Number, "UQ_PersonalAccount").IsUnique();
+            entity.HasIndex(e => e.Code, "currencies_code_uq")
+                .IsUnique()
+                .HasAnnotation("Npgsql:StorageParameter:deduplicate_items", "true");
 
-            entity.Property(e => e.Balance).HasColumnType("money");
-            entity.Property(e => e.Name).HasMaxLength(120);
-            entity.Property(e => e.Number).HasMaxLength(20);
+            entity.Property(e => e.CurrencyId)
+                .HasDefaultValueSql("nextval('currency_currency_id_seq'::regclass)")
+                .HasColumnName("currency_id");
+            entity.Property(e => e.Code)
+                .HasMaxLength(3)
+                .HasColumnName("code");
+            entity.Property(e => e.Name)
+                .HasMaxLength(50)
+                .HasColumnName("name");
+        });
 
-            entity.HasOne(d => d.CurrencyType).WithMany(p => p.PersonalAccounts)
-                .HasForeignKey(d => d.CurrencyTypeId)
-                .HasConstraintName("PersonalAccount_CurrencyTypeId_fkey");
+        modelBuilder.Entity<ExchangeRate>(entity =>
+        {
+            entity.HasKey(e => e.ExchangeRateId).HasName("exchange_rates_pkey");
 
-            entity.HasOne(d => d.Owner).WithMany(p => p.PersonalAccounts)
-                .HasForeignKey(d => d.OwnerId)
-                .HasConstraintName("PersonalAccount_OwnerId_fkey");
+            entity.ToTable("exchange_rates");
+
+            entity.Property(e => e.ExchangeRateId).HasColumnName("exchange_rate_id");
+            entity.Property(e => e.CreatedDate)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("created_date");
+            entity.Property(e => e.CurrencyId).HasColumnName("currency_id");
+            entity.Property(e => e.Rate)
+                .HasPrecision(10, 6)
+                .HasColumnName("rate");
+
+            entity.HasOne(d => d.Currency).WithMany(p => p.ExchangeRates)
+                .HasForeignKey(d => d.CurrencyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("exchange_rates_currency_id_fkey");
         });
 
         modelBuilder.Entity<RefreshToken>(entity =>
         {
-            entity.HasKey(e => e.RefreshTokenId).HasName("RefreshToken_pkey");
+            entity.HasKey(e => e.RefreshTokenId).HasName("refresh_token_pkey");
 
-            entity.ToTable("RefreshToken");
+            entity.ToTable("refresh_tokens");
 
-            entity.HasIndex(e => e.UserId, "UQ_RefreshToken")
+            entity.HasIndex(e => e.UserId, "uq_refresh_tokens")
                 .IsUnique()
                 .HasAnnotation("Npgsql:StorageParameter:deduplicate_items", "true");
 
-            entity.Property(e => e.ExpirationDate).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.RefreshTokenId)
+                .HasDefaultValueSql("nextval('\"RefreshToken_RefreshTokenId_seq\"'::regclass)")
+                .HasColumnName("refresh_token_id");
+            entity.Property(e => e.ExpirationDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("expiration_date");
+            entity.Property(e => e.Token).HasColumnName("token");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.User).WithOne(p => p.RefreshToken)
                 .HasForeignKey<RefreshToken>(d => d.UserId)
-                .HasConstraintName("RefreshToken_UserId_fkey");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("refresh_tokens_user_id_fkey");
         });
 
         modelBuilder.Entity<Transaction>(entity =>
         {
-            entity.HasKey(e => e.TransactionId).HasName("Transaction_pkey");
+            entity.HasKey(e => e.TransactionId).HasName("transaction_pkey");
 
-            entity.ToTable("Transaction");
+            entity.ToTable("transactions");
 
-            entity.Property(e => e.Amount).HasColumnType("money");
+            entity.Property(e => e.TransactionId)
+                .HasDefaultValueSql("nextval('\"Transaction_TransactionId_seq\"'::regclass)")
+                .HasColumnName("transaction_id");
+            entity.Property(e => e.Amount)
+                .HasColumnType("money")
+                .HasColumnName("amount");
+            entity.Property(e => e.CurrencyId).HasColumnName("currency_id");
+            entity.Property(e => e.FromAccountId).HasColumnName("from_account_Id");
+            entity.Property(e => e.ToAccountId).HasColumnName("to_account_id");
             entity.Property(e => e.TransferDate)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone");
-
-            entity.HasOne(d => d.CurrencyType).WithMany(p => p.Transactions)
-                .HasForeignKey(d => d.CurrencyTypeId)
-                .HasConstraintName("Transaction_CurrencyTypeId_fkey");
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("transfer_date");
 
             entity.HasOne(d => d.FromAccount).WithMany(p => p.TransactionFromAccounts)
                 .HasForeignKey(d => d.FromAccountId)
-                .HasConstraintName("Transaction_FromAccountId_fkey");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("transactions_from_account_Id_fkey");
 
             entity.HasOne(d => d.ToAccount).WithMany(p => p.TransactionToAccounts)
                 .HasForeignKey(d => d.ToAccountId)
-                .HasConstraintName("Transaction_ToAccountId_fkey");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("transactions_to_account_id_fkey");
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("User_pkey");
+            entity.HasKey(e => e.UserId).HasName("user_pkey");
 
-            entity.ToTable("User");
+            entity.ToTable("users");
 
-            entity.HasIndex(e => e.Login, "UQ_User")
-                .IsUnique()
-                .HasAnnotation("Npgsql:StorageParameter:deduplicate_items", "true");
-
-            entity.Property(e => e.Login).HasMaxLength(50);
-            entity.Property(e => e.Password).HasMaxLength(255);
+            entity.Property(e => e.UserId)
+                .HasDefaultValueSql("nextval('\"User_UserId_seq\"'::regclass)")
+                .HasColumnName("user_id");
+            entity.Property(e => e.Login)
+                .HasMaxLength(50)
+                .HasColumnName("login");
+            entity.Property(e => e.Password)
+                .HasMaxLength(255)
+                .HasColumnName("password");
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -9,16 +9,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
-      <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.6.2" />
-      <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.6.2" />
-      <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.6.2" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
+        <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.6.2"/>
+        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.6.2"/>
+        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.6.2"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Bank.Application\Bank.Application.csproj" />
-      <ProjectReference Include="..\Bank.Core\Bank.Core.csproj" />
-      <ProjectReference Include="..\Bank.Persistence\Bank.Persistence.csproj" />
+        <ProjectReference Include="..\Bank.Application\Bank.Application.csproj"/>
+        <ProjectReference Include="..\Bank.Core\Bank.Core.csproj"/>
+        <ProjectReference Include="..\Bank.Persistence\Bank.Persistence.csproj"/>
     </ItemGroup>
 
 </Project>

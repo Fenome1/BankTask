@@ -9,7 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Bank.Back.Modules;
 
-public class ApiModule(IConfiguration configuration) : Autofac.Module
+public class ApiModule(IConfiguration configuration) : Module
 {
     protected override void Load(ContainerBuilder builder)
     {
@@ -17,11 +17,11 @@ public class ApiModule(IConfiguration configuration) : Autofac.Module
 
         services.AddDbContext<BankDbContext>(opt =>
             opt.UseNpgsql("Name=BankDev"));
-        
+
         services.Configure<JwtOptions>(configuration.GetSection(nameof(JwtOptions)));
-        
+
         var jwtOptions = configuration.GetSection(nameof(JwtOptions)).Get<JwtOptions>();
-        
+
         services.ConfigureApplicationCookie(options => { options.Cookie.SameSite = SameSiteMode.None; })
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -37,7 +37,7 @@ public class ApiModule(IConfiguration configuration) : Autofac.Module
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions!.SecretKey))
                 };
             });
-        
+
         services.AddAuthorization();
 
         builder.Populate(services);
