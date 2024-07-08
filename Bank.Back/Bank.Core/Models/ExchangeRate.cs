@@ -4,11 +4,15 @@ public class ExchangeRate
 {
     public int ExchangeRateId { get; set; }
 
-    public int CurrencyId { get; set; }
+    public int CurrencyFrom { get; set; }
 
     public decimal Rate { get; set; }
 
     public DateTime CreatedDate { get; set; }
 
-    public virtual Currency Currency { get; set; } = null!;
+    public int CurrencyTo { get; set; }
+
+    public virtual Currency CurrencyFromNavigation { get; set; } = null!;
+
+    public virtual Currency CurrencyToNavigation { get; set; } = null!;
 }

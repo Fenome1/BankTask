@@ -10,7 +10,7 @@ public class NotFoundException : Exception
     {
     }
 
-    public NotFoundException(string objectName, int objectId) : base($"{objectName} ({objectId}) не найден")
+    public NotFoundException(string objectName, object objectId) : base($"{objectName} ({objectId}) не найден")
     {
     }
 }

@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Bank.Application.Features.Users.Commands.Create;
 
-public record CreateUserCommand : IRequest<int>, IMapWith<User>
+public sealed record CreateUserCommand : IRequest<int>, IMapWith<User>
 {
     public required string Login { get; set; }
     public required string Password { get; set; }

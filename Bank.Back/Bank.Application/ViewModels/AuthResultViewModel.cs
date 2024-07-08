@@ -1,6 +1,6 @@
 ﻿namespace Bank.Application.ViewModels;
 
-public record AuthResultViewModel
+public sealed record AuthResultViewModel
 {
     public required string AccessToken { get; set; }
     public required string RefreshToken { get; set; }

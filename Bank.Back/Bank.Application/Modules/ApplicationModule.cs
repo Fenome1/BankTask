@@ -22,6 +22,10 @@ public sealed class ApplicationModule : Module
             .As<ITokenService>()
             .AsSelf();
 
+        builder.RegisterType<AccountService>()
+            .As<IAccountService>()
+            .AsSelf();
+
         builder.RegisterMediatR(MediatRConfigurationBuilder
             .Create(ThisAssembly)
             .WithAllOpenGenericHandlerTypesRegistered()

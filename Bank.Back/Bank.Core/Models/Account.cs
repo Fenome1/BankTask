@@ -14,6 +14,8 @@ public class Account
 
     public int CurrencyId { get; set; }
 
+    public virtual Currency Currency { get; set; } = null!;
+
     public virtual User Owner { get; set; } = null!;
 
     public virtual ICollection<Transaction> TransactionFromAccounts { get; set; } = new List<Transaction>();

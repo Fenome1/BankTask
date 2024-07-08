@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Bank.Application.Features.Users.Commands.Login;
 
-public record LoginUserCommand : IRequest<AuthResultViewModel>
+public sealed record LoginUserCommand : IRequest<AuthResultViewModel>
 {
     public required string Login { get; set; }
     public required string Password { get; set; }

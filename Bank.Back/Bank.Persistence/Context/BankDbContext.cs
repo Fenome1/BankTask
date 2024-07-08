@@ -57,6 +57,10 @@ public partial class BankDbContext : DbContext
                 .HasColumnName("number");
             entity.Property(e => e.OwnerId).HasColumnName("owner_id");
 
+            entity.HasOne(d => d.Currency).WithMany(p => p.Accounts)
+                .HasForeignKey(d => d.CurrencyId)
+                .HasConstraintName("accounts_currency_id_fkey");
+
             entity.HasOne(d => d.Owner).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.OwnerId)
                 .HasConstraintName("accounts_owner_id_fkey");
@@ -94,14 +98,19 @@ public partial class BankDbContext : DbContext
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("created_date");
-            entity.Property(e => e.CurrencyId).HasColumnName("currency_id");
+            entity.Property(e => e.CurrencyFrom).HasColumnName("currency_from");
+            entity.Property(e => e.CurrencyTo).HasColumnName("currency_to");
             entity.Property(e => e.Rate)
                 .HasPrecision(10, 6)
                 .HasColumnName("rate");
 
-            entity.HasOne(d => d.Currency).WithMany(p => p.ExchangeRates)
-                .HasForeignKey(d => d.CurrencyId)
-                .HasConstraintName("exchange_rates_currency_id_fkey");
+            entity.HasOne(d => d.CurrencyFromNavigation).WithMany(p => p.ExchangeRateCurrencyFromNavigations)
+                .HasForeignKey(d => d.CurrencyFrom)
+                .HasConstraintName("exchange_rates_currency_from_fkey");
+
+            entity.HasOne(d => d.CurrencyToNavigation).WithMany(p => p.ExchangeRateCurrencyToNavigations)
+                .HasForeignKey(d => d.CurrencyTo)
+                .HasConstraintName("exchange_rates_currency_to_fkey");
         });
 
         modelBuilder.Entity<RefreshToken>(entity =>
@@ -140,9 +149,10 @@ public partial class BankDbContext : DbContext
             entity.Property(e => e.Amount)
                 .HasColumnType("money")
                 .HasColumnName("amount");
-            entity.Property(e => e.CurrencyId).HasColumnName("currency_id");
             entity.Property(e => e.FromAccountId).HasColumnName("from_account_Id");
+            entity.Property(e => e.FromCurrencyId).HasColumnName("from_currency_id");
             entity.Property(e => e.ToAccountId).HasColumnName("to_account_id");
+            entity.Property(e => e.ToCurrencyId).HasColumnName("to_currency_id");
             entity.Property(e => e.TransferDate)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
@@ -152,9 +162,17 @@ public partial class BankDbContext : DbContext
                 .HasForeignKey(d => d.FromAccountId)
                 .HasConstraintName("transactions_from_account_Id_fkey");
 
+            entity.HasOne(d => d.FromCurrency).WithMany(p => p.TransactionFromCurrencies)
+                .HasForeignKey(d => d.FromCurrencyId)
+                .HasConstraintName("transactions_from_currency_id_fkey");
+
             entity.HasOne(d => d.ToAccount).WithMany(p => p.TransactionToAccounts)
                 .HasForeignKey(d => d.ToAccountId)
                 .HasConstraintName("transactions_to_account_id_fkey");
+
+            entity.HasOne(d => d.ToCurrency).WithMany(p => p.TransactionToCurrencies)
+                .HasForeignKey(d => d.ToCurrencyId)
+                .HasConstraintName("transactions_to_currency_id_fkey");
         });
 
         modelBuilder.Entity<User>(entity =>

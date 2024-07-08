@@ -23,6 +23,8 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Folder Include="Features\Accounts\Commands\"/>
+        <Folder Include="Features\Transactions\Commands\"/>
         <Folder Include="Features\Users\Commands\"/>
     </ItemGroup>
 
