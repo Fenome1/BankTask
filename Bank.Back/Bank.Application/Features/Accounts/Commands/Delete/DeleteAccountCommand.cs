@@ -1,8 +1,5 @@
 ﻿using MediatR;
 
-namespace Bank.Application.Features.Accounts.Delete;
+namespace Bank.Application.Features.Accounts.Commands.Delete;
 
-public sealed record DeleteAccountCommand : IRequest<Unit>
-{
-    public required int AccountId { get; set; }
-}
+public sealed record DeleteAccountCommand(int AccountId) : IRequest<Unit>;

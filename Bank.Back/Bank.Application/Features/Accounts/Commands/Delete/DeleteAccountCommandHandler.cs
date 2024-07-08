@@ -4,7 +4,7 @@ using Bank.Persistence.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Bank.Application.Features.Accounts.Delete;
+namespace Bank.Application.Features.Accounts.Commands.Delete;
 
 public class DeleteAccountCommandHandler(BankDbContext context) : IRequestHandler<DeleteAccountCommand, Unit>
 {

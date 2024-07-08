@@ -10,3 +10,13 @@
     --main-color: #1677ff;
     --main-bg-color: gainsboro;
 }
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 15px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: gainsboro;
+}

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Bank.Application.Features.Accounts.Update;
+namespace Bank.Application.Features.Accounts.Commands.Update;
 
 public sealed record UpdateAccountCommand : IRequest<int>
 {

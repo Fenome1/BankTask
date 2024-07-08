@@ -21,13 +21,12 @@ public class ListAccountsByUserQueryHandler(BankDbContext context, IMapper mappe
         if (!isUserExist)
             throw new NotFoundException(nameof(User), request.UserId);
 
-        var accounts = await context.Accounts
+        return await context.Accounts
             .Include(a => a.Currency)
             .Include(a => a.Owner)
             .AsNoTrackingWithIdentityResolution()
             .Where(a => a.OwnerId == request.UserId)
+            .Select(a => mapper.Map<AccountViewModel>(a))
             .ToListAsync(cancellationToken);
-
-        return mapper.Map<List<AccountViewModel>>(accounts);
     }
 }

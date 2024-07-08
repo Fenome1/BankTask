@@ -1,0 +1,28 @@
+.page-content {
+  height: 100vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  background: gainsboro;
+
+  .logout-selector {
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    height: fit-content;
+  }
+
+  .transactions-selector {
+    background: #fff;
+    border-radius: 20px;
+    padding: 10px;
+    flex-grow: 1;
+  }
+
+  .accounts-selector {
+    background: #fff;
+    border-radius: 20px;
+    padding: 10px;
+  }
+}

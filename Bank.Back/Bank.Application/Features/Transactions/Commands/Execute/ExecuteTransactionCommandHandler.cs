@@ -4,7 +4,7 @@ using Bank.Persistence.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Bank.Application.Features.Transactions.Execute;
+namespace Bank.Application.Features.Transactions.Commands.Execute;
 
 public sealed class ExecuteTransactionCommandHandler(BankDbContext context)
     : IRequestHandler<ExecuteTransactionCommand, int>

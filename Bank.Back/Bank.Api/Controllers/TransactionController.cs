@@ -1,4 +1,4 @@
-﻿using Bank.Application.Features.Transactions.Execute;
+﻿using Bank.Application.Features.Transactions.Commands.Execute;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bank.Back.Controllers;

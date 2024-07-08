@@ -4,7 +4,7 @@ import {HttpMethod} from "../../common/enums/HttpMethod.ts";
 import {message} from "antd";
 import {getErrorMessageFormBaseQuery} from "../hooks/getErrorMessageFormBaseQuery.ts";
 import {FetchBaseQueryError} from "@reduxjs/toolkit/query";
-import {IRegisterUserCommand} from "../../features/commands/IRegisterUserCommand.ts";
+import {IRegisterUserCommand} from "../../features/commands/auth/IRegisterUserCommand.ts";
 
 export const userApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({

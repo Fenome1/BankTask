@@ -1,7 +1,7 @@
-﻿using Bank.Application.Features.Accounts.Create;
-using Bank.Application.Features.Accounts.Delete;
+﻿using Bank.Application.Features.Accounts.Commands.Create;
+using Bank.Application.Features.Accounts.Commands.Delete;
+using Bank.Application.Features.Accounts.Commands.Update;
 using Bank.Application.Features.Accounts.Queries.ByUser;
-using Bank.Application.Features.Accounts.Update;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,12 +38,12 @@ public class AccountController : BaseController
     }
 
     [Authorize]
-    [HttpDelete("Delete")]
-    public async Task<ActionResult<int>> Delete([FromBody] DeleteAccountCommand command)
+    [HttpDelete("Delete/{accountId}")]
+    public async Task<ActionResult<int>> Delete(int accountId)
     {
         try
         {
-            return Ok(await Mediator.Send(command));
+            return Ok(await Mediator.Send(new DeleteAccountCommand(accountId)));
         }
         catch (Exception e)
         {
@@ -51,13 +51,13 @@ public class AccountController : BaseController
         }
     }
 
-    /*[Authorize]*/
-    [HttpGet("User/")]
-    public async Task<ActionResult<int>> GetByUser([FromQuery] ListAccountsByUserQuery query)
+    [Authorize]
+    [HttpGet("User/{userId}")]
+    public async Task<ActionResult<int>> GetByUser(int userId)
     {
         try
         {
-            return Ok(await Mediator.Send(query));
+            return Ok(await Mediator.Send(new ListAccountsByUserQuery(userId)));
         }
         catch (Exception e)
         {

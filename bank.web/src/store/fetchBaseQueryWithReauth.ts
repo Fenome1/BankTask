@@ -2,7 +2,7 @@ import {BaseQueryFn, FetchArgs, fetchBaseQuery, FetchBaseQueryError} from "@redu
 import {Mutex} from "async-mutex";
 import {RootState} from "./store.ts";
 import {authApi} from "./apis/authApi.ts";
-import {IRefreshUserCommand} from "../features/commands/IRefreshUserCommand.ts";
+import {IRefreshUserCommand} from "../features/commands/auth/IRefreshUserCommand.ts";
 
 const mutex = new Mutex()
 

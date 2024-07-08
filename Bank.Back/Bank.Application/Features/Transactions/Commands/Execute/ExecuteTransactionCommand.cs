@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Bank.Application.Features.Transactions.Execute;
+namespace Bank.Application.Features.Transactions.Commands.Execute;
 
 public sealed record ExecuteTransactionCommand : IRequest<int>
 {

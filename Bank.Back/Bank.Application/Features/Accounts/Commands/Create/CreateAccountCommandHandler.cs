@@ -6,7 +6,7 @@ using Bank.Persistence.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Bank.Application.Features.Accounts.Create;
+namespace Bank.Application.Features.Accounts.Commands.Create;
 
 public sealed class CreateAccountCommandHandler(
     BankDbContext context,
@@ -29,6 +29,7 @@ public sealed class CreateAccountCommandHandler(
 
         var newAccount = mapper.Map<Account>(request);
 
+        newAccount.Name = request.Name;
         newAccount.Number = await GenerateUniqueAccountNumber(accountService, context);
 
         await context.Accounts.AddAsync(newAccount, cancellationToken);

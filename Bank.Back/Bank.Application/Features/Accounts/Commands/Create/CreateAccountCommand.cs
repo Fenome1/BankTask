@@ -3,7 +3,7 @@ using Bank.Application.Common.Mappings;
 using Bank.Core.Models;
 using MediatR;
 
-namespace Bank.Application.Features.Accounts.Create;
+namespace Bank.Application.Features.Accounts.Commands.Create;
 
 public sealed record CreateAccountCommand : IRequest<int>, IMapWith<Account>
 {

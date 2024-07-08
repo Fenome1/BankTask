@@ -4,7 +4,7 @@ using Bank.Persistence.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Bank.Application.Features.Accounts.Update;
+namespace Bank.Application.Features.Accounts.Commands.Update;
 
 public class UpdateAccountCommandHandler(BankDbContext context) : IRequestHandler<UpdateAccountCommand, int>
 {

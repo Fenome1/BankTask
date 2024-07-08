@@ -1,13 +1,13 @@
 import {baseQuery, fetchQueryWithReauth} from "../fetchBaseQueryWithReauth.ts";
 import {ILoginUserResponse} from "../../features/responces/ILoginUserRespose.ts";
-import {ILoginUserCommand} from "../../features/commands/ILoginUserCommand.ts";
+import {ILoginUserCommand} from "../../features/commands/auth/ILoginUserCommand.ts";
 import {ApiTag} from "../../common/enums/ApiTag.ts";
 import {HttpMethod} from "../../common/enums/HttpMethod.ts";
 import {login} from "../slices/userSlice.ts";
 import {message} from "antd";
 import {getErrorMessageFormBaseQuery} from "../hooks/getErrorMessageFormBaseQuery.ts";
-import {ILogoutUserCommand} from "../../features/commands/ILogoutUserCommand.ts";
-import {IRefreshUserCommand} from "../../features/commands/IRefreshUserCommand.ts";
+import {ILogoutUserCommand} from "../../features/commands/auth/ILogoutUserCommand.ts";
+import {IRefreshUserCommand} from "../../features/commands/auth/IRefreshUserCommand.ts";
 import {resetAndCleanStore, RootState} from "../store.ts";
 import {createApi, FetchBaseQueryError} from "@reduxjs/toolkit/query/react";
 

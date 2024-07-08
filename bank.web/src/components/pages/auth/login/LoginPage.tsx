@@ -1,5 +1,5 @@
 import {Button, Form, Input, Spin} from 'antd';
-import {ILoginUserCommand} from "../../../../features/commands/ILoginUserCommand.ts";
+import {ILoginUserCommand} from "../../../../features/commands/auth/ILoginUserCommand.ts";
 import {useNavigate} from 'react-router-dom';
 import {useLoginMutation} from "../../../../store/apis/authApi.ts";
 import {LockOutlined, UserOutlined} from '@ant-design/icons';

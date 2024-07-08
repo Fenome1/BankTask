@@ -1,10 +1,10 @@
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import {Button, Form, FormProps, Input, message, Spin} from 'antd';
-import {ILoginUserCommand} from "../../../../features/commands/ILoginUserCommand.ts";
+import {ILoginUserCommand} from "../../../../features/commands/auth/ILoginUserCommand.ts";
 import {useLoginMutation} from "../../../../store/apis/authApi.ts";
 import {useNavigate} from 'react-router-dom';
 import {useRegiserUserMutation} from "../../../../store/apis/userApi.ts";
-import {IRegisterUserCommand} from "../../../../features/commands/IRegisterUserCommand.ts";
+import {IRegisterUserCommand} from "../../../../features/commands/auth/IRegisterUserCommand.ts";
 
 type Fields = {
     login: string
