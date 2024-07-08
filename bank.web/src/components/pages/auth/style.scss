@@ -1,0 +1,36 @@
+.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  .auth-card {
+    max-width: 300px;
+    max-height: 300px;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border: var(--main-color) solid 1px;
+    border-radius: 25px;
+    padding: 25px;
+    box-shadow: 0 0 5px 0 var(--main-color);
+    gap: 20px;
+
+    .auth-card-header {
+      font-size: 22pt;
+    }
+
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+
+      .auth-button-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  }
+}
