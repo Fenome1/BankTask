@@ -25,10 +25,7 @@ SET row_security = off;
 
 CREATE DATABASE bank WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = libc LOCALE = 'en_US.utf8';
 
-
 ALTER DATABASE bank OWNER TO postgres;
-
-\connect bank
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
