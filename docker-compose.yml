@@ -19,7 +19,7 @@ services:
     image: bank.api
     build:
       network: host
-      context: ./Bank.back
+      context: bank.back
       dockerfile: Back.Api/Dockerfile
     depends_on:
       - db
