@@ -1,0 +1,18 @@
+.transactions-group {
+  display: flex;
+  gap: 20px;
+  height: 100%;
+
+  .transactions-table-card {
+    flex-grow: 1;
+  }
+
+  .transactions-filters-card {
+    .transactions-filters-form {
+      .transaction-form-buttons {
+        display: flex;
+        gap: 10px;
+      }
+    }
+  }
+}

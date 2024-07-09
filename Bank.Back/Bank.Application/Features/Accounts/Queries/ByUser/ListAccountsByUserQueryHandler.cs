@@ -26,6 +26,7 @@ public class ListAccountsByUserQueryHandler(BankDbContext context, IMapper mappe
             .Include(a => a.Owner)
             .AsNoTrackingWithIdentityResolution()
             .Where(a => a.OwnerId == request.UserId)
+            .OrderBy(a => a.AccountId)
             .Select(a => mapper.Map<AccountViewModel>(a))
             .ToListAsync(cancellationToken);
     }

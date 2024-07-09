@@ -29,7 +29,7 @@ public sealed class ExecuteTransactionCommandHandler(BankDbContext context)
                 cancellationToken);
 
         if (toAccount is null)
-            throw new NotFoundException(nameof(Account), request.ToAccountNumber);
+            throw new Exception($"Счет с номером: {request.ToAccountNumber} не найден");
 
         fromAccount.Balance -= request.Amount;
 

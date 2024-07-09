@@ -19,14 +19,14 @@ public class UpdateAccountCommandHandler(BankDbContext context) : IRequestHandle
         if (account is null)
             throw new NotFoundException(nameof(Account), request.AccountId);
 
-        if (!string.IsNullOrWhiteSpace(request.Name))
-            account.Name = request.Name;
+        account.Name = request.Name;
 
-        if (request.CurrencyId is not null)
+        if (request.Balance.HasValue)
+            account.Balance = request.Balance.Value;
+
+        if (request.CurrencyId is not null &&
+            request.CurrencyId != account.CurrencyId)
         {
-            if (request.CurrencyId == account.CurrencyId)
-                throw new Exception("Валюта уже сконвертирована");
-
             var exchangeRate = await context.ExchangeRates
                 .AsNoTrackingWithIdentityResolution()
                 .OrderBy(r => r.CreatedDate)
@@ -41,9 +41,6 @@ public class UpdateAccountCommandHandler(BankDbContext context) : IRequestHandle
             account.CurrencyId = request.CurrencyId.Value;
             account.Balance = convertedBalance;
         }
-
-        if (request.Balance is not null)
-            account.Balance = request.Balance.Value;
 
         context.Update(account);
         await context.SaveChangesAsync(cancellationToken);

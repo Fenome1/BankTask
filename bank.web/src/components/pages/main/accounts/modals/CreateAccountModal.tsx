@@ -44,7 +44,7 @@ const CreateAccountModal: FC<CreateAccountModalProps> = ({userId, dialog}) => {
                     </Form.Item>
                     <Form.Item
                         name='currencyId'
-                        label="Имя счета"
+                        label="Валюта"
                         rules={[{required: true, message: "Пожалуйста, выберите валюту!"}]}>
                         <Select
                             showSearch

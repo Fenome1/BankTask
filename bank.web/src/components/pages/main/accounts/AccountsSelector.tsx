@@ -32,9 +32,11 @@ const AccountsSelector: FC<AccountsSelectorProps> = ({className}) => {
         <div className={className}>
             <div className='accounts-group'>
                 <div className='accounts-group-title'>
-                    Счета
-                    <span style={{fontWeight: "normal", fontSize: '15pt'}}>
-                    {accounts?.length ?? 0} / 5
+                    <span className='accounts-group-text'>
+                        Счета
+                    </span>
+                    <span className='accounts-group-count'>
+                        {accounts?.length ?? 0} / 5
                     </span>
                 </div>
                 <Button className='account-create-button'

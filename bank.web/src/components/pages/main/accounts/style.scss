@@ -7,13 +7,22 @@
   justify-items: center;
 
   .accounts-group-title {
-    padding-left: 10px;
+    padding: 10px;
     display: flex;
     flex-direction: row;
     gap: 10px;
     align-items: center;
-    font-weight: bold;
-    font-size: 20pt;
+    width: 100%;
+
+    .accounts-group-text {
+      font-weight: bold;
+      font-size: 20pt;
+      flex-grow: 1;
+    }
+
+    .accounts-group-count {
+      font-size: 15pt;
+    }
   }
 
   .account-create-button {
@@ -26,7 +35,7 @@
     padding: 10px;
     gap: 15px;
     width: fit-content;
-    max-height: calc(100vh - 130px);
+    max-height: calc(100vh - 150px);
     overflow-y: auto;
 
     .account-card {
@@ -34,7 +43,7 @@
       flex-direction: column;
       padding: 20px;
       border-radius: 20px;
-      box-shadow: var(--main-color) 0 0 5px 1px;
+      box-shadow: var(--main-color) 0.1px 0.1px 1px 1px;
       gap: 10px;
 
       .account-card-header {

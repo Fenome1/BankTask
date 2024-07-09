@@ -6,6 +6,7 @@ import {message} from "antd";
 import {getErrorMessageFormBaseQuery} from "../hooks/getErrorMessageFormBaseQuery.ts";
 import {FetchBaseQueryError} from "@reduxjs/toolkit/query";
 import {ICreateAccountCommand} from "../../features/commands/account/ICreateAccountCommand.ts";
+import {IUpdateAccountCommand} from "../../features/commands/account/IUpdateAccountCommand.ts";
 
 export const accountApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -20,6 +21,21 @@ export const accountApi = baseApi.injectEndpoints({
             query: command => ({
                 url: `${ApiTag.Account}/Create`,
                 method: HttpMethod.POST,
+                body: command
+            }),
+            invalidatesTags: [{type: ApiTag.Account}],
+            async onQueryStarted(_, {queryFulfilled}) {
+                try {
+                    await queryFulfilled
+                } catch (error) {
+                    message.error(getErrorMessageFormBaseQuery(error as FetchBaseQueryError), 3)
+                }
+            }
+        }),
+        updateAccount: builder.mutation<number, IUpdateAccountCommand>({
+            query: command => ({
+                url: `${ApiTag.Account}/Update`,
+                method: HttpMethod.PUT,
                 body: command
             }),
             invalidatesTags: [{type: ApiTag.Account}],
@@ -50,6 +66,7 @@ export const accountApi = baseApi.injectEndpoints({
 })
 
 export const {
+    useUpdateAccountMutation,
     useDeleteAccountMutation,
     useCreateAccountMutation,
     useGetAccountsByUserQuery,

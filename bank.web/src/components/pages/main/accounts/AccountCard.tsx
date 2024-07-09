@@ -5,6 +5,8 @@ import {DeleteOutlined, EditOutlined, SendOutlined} from "@ant-design/icons";
 import CopyToClipboard from "react-copy-to-clipboard";
 import {useDialog} from "../../../../hok/useDialog.ts";
 import {useDeleteAccountMutation} from "../../../../store/apis/accountApi.ts";
+import TransferAccountModal from "./modals/TransferAccountModal.tsx";
+import EditAccountModal from "./modals/EditAccountModal.tsx";
 
 type AccountCardProps = {
     account: IAccount
@@ -13,7 +15,7 @@ type AccountCardProps = {
 const AccountCard: FC<AccountCardProps> = ({account}) => {
 
     const editDialog = useDialog()
-    const startTransferDialog = useDialog()
+    const transferDialog = useDialog()
 
     const [deleteAccount] = useDeleteAccountMutation()
 
@@ -54,10 +56,14 @@ const AccountCard: FC<AccountCardProps> = ({account}) => {
                     </span>
                 </div>
                 <div className='account-buttons'>
-                    <Button type='primary' style={{width: '100%'}} icon={<SendOutlined/>}>Перевод</Button>
-                    <Button type='text' style={{width: '100%'}} icon={<EditOutlined/>}>Изменение</Button>
+                    <Button type='primary' style={{width: '100%'}} icon={<SendOutlined/>}
+                            onClick={transferDialog.show}>Перевод</Button>
+                    <Button type='text' style={{width: '100%'}} icon={<EditOutlined/>}
+                            onClick={editDialog.show}>Изменение</Button>
                 </div>
             </div>
+            <TransferAccountModal dialog={transferDialog} account={account}/>
+            <EditAccountModal account={account} dialog={editDialog}/>
         </div>
     );
 };
