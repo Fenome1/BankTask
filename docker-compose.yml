@@ -1,7 +1,9 @@
+version: "3.9"
+
 services:
-  db:
+  postgres:
+    container_name: postgres
     image: postgres:latest
-    container_name: postgresql
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: P@ssw0rd
@@ -9,20 +11,21 @@ services:
     ports:
       - "5432:5432"
     volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - pg_data:/var/lib/postgresql/data
     restart: always
     #logging:
       #driver: none
 
   bank.api:
-    container_name: api
+    container_name: bank.api
     image: bank.api
     build:
       network: host
       context: bank.back
-      dockerfile: Back.Api/Dockerfile
+      dockerfile: Bank.Api/Dockerfile
     depends_on:
-      - db
+      - postgres
     ports:
       - "5050:80"
     environment:
@@ -35,20 +38,16 @@ services:
       #driver: none
 
   nginx:
-    container_name: web
+    container_name: nginx
     image: react
     build:
-      network: host
       context: ./bank.web
       dockerfile: Dockerfile
     ports:
       - "3000:80"
     depends_on:
       - bank.api
-    stdin_open: true
     restart: unless-stopped
-    #logging:
-      #driver: none
 
 volumes:
   pg_data:
