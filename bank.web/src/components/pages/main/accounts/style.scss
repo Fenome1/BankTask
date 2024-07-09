@@ -84,11 +84,8 @@
           font-size: 16pt;
 
           .account-balance {
-
-          }
-
-          .account-currency {
-
+            max-width: 150px;
+            overflow: auto;
           }
         }
 

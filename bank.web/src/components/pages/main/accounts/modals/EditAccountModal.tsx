@@ -70,7 +70,17 @@ const EditAccountModal: FC<EditAccountModalProps> = ({account, dialog}) => {
                     </Form.Item>
                     <Form.Item
                         name="balance"
-                        label="Баланс">
+                        label="Баланс"
+                        rules={[
+                            {
+                                validator: (_, value) => {
+                                    if (value < 0 || value > 9999999) {
+                                        return Promise.reject('Баланс может быть от 0 до 9 999 999');
+                                    }
+                                    return Promise.resolve();
+                                }
+                            }
+                        ]}>
                         <Input type="number" placeholder="Баланс..."/>
                     </Form.Item>
                 </Spin>
