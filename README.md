@@ -32,7 +32,7 @@
    
 2. Запустите Docker Compose:
    ```bash
-    docker-compose up --build
+    docker-compose up -d
    
 3. Приложение будет доступно по адресу:
    ```bash
