@@ -25,12 +25,12 @@
 
 Проект использует Docker для контейнеризации.
 
-1. **Клонируйте репозиторий:**
+1. Клонируйте репозиторий:
    ```bash
    git clone https://github.com/Fenome1/BankTask.git
    cd BankTask
    
-2. **Запустите Docker Compose:
+2. Запустите Docker Compose:
    ```bash
     docker-compose up --build
    
