@@ -12,8 +12,8 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - pg_data:/var/lib/postgresql/data
     restart: always
-    #logging:
-      #driver: none
+    logging:
+      driver: none
 
   bank.api:
     container_name: bank.api
@@ -32,8 +32,8 @@ services:
     volumes:
       - ~/.aspnet/https:/https:ro
     restart: unless-stopped
-    #logging:
-      #driver: none
+    logging:
+      driver: none
 
   nginx:
     container_name: nginx

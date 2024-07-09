@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bank.Application.Features.Accounts.Commands.Delete;
 
-public class DeleteAccountCommandHandler(BankDbContext context) : IRequestHandler<DeleteAccountCommand, Unit>
+public sealed class DeleteAccountCommandHandler(BankDbContext context) : IRequestHandler<DeleteAccountCommand, Unit>
 {
     public async Task<Unit> Handle(DeleteAccountCommand request, CancellationToken cancellationToken)
     {

@@ -1,6 +1,6 @@
 ﻿namespace Bank.Application.ViewModels.Base;
 
-public class PagedList<T>
+public sealed class PagedList<T>
 {
     public int PageSize { get; set; }
     public int CurrentPage { get; set; }

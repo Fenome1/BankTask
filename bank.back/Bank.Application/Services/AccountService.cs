@@ -2,7 +2,7 @@
 
 namespace Bank.Application.Services;
 
-public class AccountService : IAccountService
+public sealed class AccountService : IAccountService
 {
     public string GenerateAccountNumber()
     {

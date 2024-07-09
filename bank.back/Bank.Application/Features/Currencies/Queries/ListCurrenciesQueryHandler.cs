@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bank.Application.Features.Currencies.Queries;
 
-public class ListCurrenciesQueryHandler(BankDbContext context, IMapper mapper)
+public sealed class ListCurrenciesQueryHandler(BankDbContext context, IMapper mapper)
     : IRequestHandler<ListCurrenciesQuery, List<CurrencyViewModel>>
 {
     public async Task<List<CurrencyViewModel>> Handle(ListCurrenciesQuery request, CancellationToken cancellationToken)

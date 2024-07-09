@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bank.Application.Features.Accounts.Commands.Update;
 
-public class UpdateAccountCommandHandler(BankDbContext context) : IRequestHandler<UpdateAccountCommand, int>
+public sealed class UpdateAccountCommandHandler(BankDbContext context) : IRequestHandler<UpdateAccountCommand, int>
 {
     public async Task<int> Handle(UpdateAccountCommand request, CancellationToken cancellationToken)
     {

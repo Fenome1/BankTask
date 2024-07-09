@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bank.Application.Features.Accounts.Queries.ByUser;
 
-public class ListAccountsByUserQueryHandler(BankDbContext context, IMapper mapper)
+public sealed class ListAccountsByUserQueryHandler(BankDbContext context, IMapper mapper)
     : IRequestHandler<ListAccountsByUserQuery, List<AccountViewModel>>
 {
     public async Task<List<AccountViewModel>> Handle(ListAccountsByUserQuery request,
