@@ -14,5 +14,41 @@ services:
     #logging:
       #driver: none
 
+  bank.api:
+    container_name: api
+    image: bank.api
+    build:
+      network: host
+      context: ./Bank.back
+      dockerfile: Back.Api/Dockerfile
+    depends_on:
+      - db
+    ports:
+      - "5050:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80
+    volumes:
+      - ~/.aspnet/https:/https:ro
+    restart: unless-stopped
+    #logging:
+      #driver: none
+
+  nginx:
+    container_name: web
+    image: react
+    build:
+      network: host
+      context: ./bank.web
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - bank.api
+    stdin_open: true
+    restart: unless-stopped
+    #logging:
+      #driver: none
+
 volumes:
   pg_data:

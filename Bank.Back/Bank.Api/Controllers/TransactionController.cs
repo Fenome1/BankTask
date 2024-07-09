@@ -23,7 +23,7 @@ public class TransactionController : BaseController
         }
     }
 
-    /*[Authorize]*/
+    [Authorize]
     [HttpGet("User")]
     public async Task<ActionResult<PagedList<TransactionViewModel>>> GetByUser(
         [FromQuery] ListTransactionsByUserQuery query)
