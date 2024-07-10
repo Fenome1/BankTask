@@ -23,4 +23,13 @@
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <Folder Include="Migrations\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Remove="Migrations\20240710124548_Initial.cs"/>
+        <Compile Remove="Migrations\20240710124548_Initial.Designer.cs"/>
+    </ItemGroup>
+
 </Project>

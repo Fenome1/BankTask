@@ -26,6 +26,13 @@ public partial class BankDbContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
+    //Для использования миграций, закомментировать OnConfiguring
+    
+    /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseNpgsql("Host=localhost;Database=bank;Username=postgres;Password=P@ssw0rd;");
+    }*/
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Account>(entity =>
